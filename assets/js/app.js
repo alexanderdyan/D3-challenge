@@ -29,6 +29,8 @@ d3.csv("assets/data/data.csv").then(function(data) {
     data.forEach(function(data) {
       data.poverty = +data.poverty; // int
       data.smokes = +data.smokes; // int
+      data.state = data.state; // string
+      data.abbr = data.abbr; // string
     });
 
     return data 
@@ -80,5 +82,18 @@ d3.csv("assets/data/data.csv").then(function(data) {
         .attr("r", "20")
         .attr("fill", "blue")
         .attr("opacity", ".5")
+
+    // Create text under circles by selecting empty elements and just creating a new text element at the same position.
+    // tweak x values so text is centered
+    chartGroup.selectAll(null)
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("class", "circleText") // add class
+        // Add your code below this line
+        .attr("x", d => xLinearScale(d.poverty) - 10)
+        .attr("y", d => yLinearScale(d.smokes))
+        .attr("fill","white")
+        .text((d)=> d.abbr)
 });
     
