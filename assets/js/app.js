@@ -72,6 +72,18 @@ d3.csv("assets/data/data.csv").then(function(data) {
       .attr("class", "axisText")
       .text("In Poverty (%)");
 
+    // Initialize tool tips when hovering
+    // Displays Smoking , Poverty and State
+    var toolTip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([-20, -20])
+        .html(function(d) {
+            return (`Smokes: ${d.smokes} <br>Poverty: ${d.poverty} <br>State: ${d.state}`);
+    });
+
+    // Add created tooltip to chart
+    chartGroup.call(toolTip);
+
     // Create Circles by selecting empty elements and just appending.
     var circlesGroup = chartGroup.selectAll(null)
         .data(data)
@@ -82,6 +94,8 @@ d3.csv("assets/data/data.csv").then(function(data) {
         .attr("r", "20")
         .attr("fill", "blue")
         .attr("opacity", ".5")
+        .on('click', toolTip.show)
+        .on('mouseout', toolTip.hide)
 
     // Create text under circles by selecting empty elements and just creating a new text element at the same position.
     // tweak x values so text is centered
